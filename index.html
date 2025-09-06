@@ -56,6 +56,11 @@
       padding-bottom: 0.5rem;
     }
 
+    .code-block {
+      position: relative;
+      margin: 1.5rem 0;
+    }
+
     pre {
       background: #161b22;
       border: 1px solid #30363d;
@@ -67,6 +72,37 @@
     code {
       font-family: "Fira Code", monospace;
       font-size: 0.95rem;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 5px;
+      padding: 4px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .copy-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: #8b949e;
+    }
+
+    .code-block:hover .copy-btn,
+    .code-block:focus-within .copy-btn {
+      opacity: 1;
+    }
+
+    .copy-btn.copied {
+      border-color: #238636;
     }
 
     footer {
@@ -95,41 +131,78 @@
 
   <main>
     <h2># Variables</h2>
-    <pre><code class="language-clike">let name = "Vey"
+    <div class="code-block">
+      <button class="copy-btn" title="Copy">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+      </button>
+      <pre><code class="language-clike">let name = "Vey"
 let version = 0.1
 let active = true</code></pre>
+    </div>
 
     <h2># Functions</h2>
-    <pre><code class="language-clike">func greet(person) {
+    <div class="code-block">
+      <button class="copy-btn" title="Copy">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+      </button>
+      <pre><code class="language-clike">func greet(person) {
     print("Hello, " + person + "!")
 }
 
 greet("World")</code></pre>
+    </div>
 
     <h2># Control Flow</h2>
-    <pre><code class="language-clike">let x = 10
+    <div class="code-block">
+      <button class="copy-btn" title="Copy">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+      </button>
+      <pre><code class="language-clike">let x = 10
 
 if x > 5 {
     print("Greater than 5")
 } else {
     print("5 or less")
 }</code></pre>
+    </div>
 
     <h2># Loops</h2>
-    <pre><code class="language-clike">for i in 1..5 {
+    <div class="code-block">
+      <button class="copy-btn" title="Copy">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+      </button>
+      <pre><code class="language-clike">for i in 1..5 {
     print("Count: " + i)
 }</code></pre>
+    </div>
 
     <h2># Data Structures</h2>
-    <pre><code class="language-clike">let fruits = ["apple", "banana", "cherry"]
+    <div class="code-block">
+      <button class="copy-btn" title="Copy">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+      </button>
+      <pre><code class="language-clike">let fruits = ["apple", "banana", "cherry"]
 
 for fruit in fruits {
     print(fruit)
 }</code></pre>
+    </div>
   </main>
 
   <footer>
     <p>Made with ❤️ for experimentation — <a href="https://github.com/yourusername/vey">View on GitHub</a></p>
   </footer>
+
+  <script>
+    document.querySelectorAll(".copy-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const code = btn.nextElementSibling.innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          btn.classList.add("copied");
+          setTimeout(() => btn.classList.remove("copied"), 1500);
+        });
+      });
+    });
+  </script>
 </body>
 </html>

@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vey — Minimal Programming Language</title>
+<title>Vey — Interactive Playground</title>
 
-<!-- Google Fonts -->
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <!-- Prism.js for code highlighting -->
@@ -14,177 +14,66 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
 
 <style>
-  /* --- Basic Layout --- */
-  body {
-    font-family: "Inter", sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #0d1117;
-    color: #e6edf3;
-    line-height: 1.6;
-    scroll-behavior: smooth;
-  }
+  body { font-family: "Inter", sans-serif; margin:0; padding:0; background:#0d1117; color:#e6edf3; line-height:1.6; scroll-behavior:smooth; transition: background 0.3s, color 0.3s; }
+  header { background:#161b22; padding:2rem 1rem; text-align:center; border-bottom:1px solid #30363d; }
+  header h1 { font-size:3rem; margin:0; font-weight:700; }
+  header p { font-size:1.2rem; color:#8b949e; margin-top:0.5rem; }
+  main { display:flex; max-width:1200px; margin:2rem auto; padding:0 1rem; }
+  nav { flex:0 0 200px; margin-right:2rem; position:sticky; top:2rem; align-self:flex-start; }
+  nav a { display:block; color:#58a6ff; text-decoration:none; margin-bottom:1rem; font-weight:600; }
+  nav a.active, nav a:hover { text-decoration:underline; }
+  .content { flex:1; }
+  h2 { margin-top:3rem; font-size:2rem; border-bottom:1px solid #30363d; padding-bottom:0.5rem; opacity:0; transform: translateY(20px); transition: all 0.6s ease; }
+  .show { opacity:1; transform: translateY(0); }
+  .code-block { position:relative; margin:1.5rem 0; }
+  pre { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; }
+  code { font-family:"Fira Code", monospace; font-size:0.95rem; }
+  .lang-label { position:absolute; top:6px; right:10px; background:#21262d; color:#8b949e; font-size:0.75rem; padding:2px 6px; border-radius:4px; border:1px solid #30363d; }
+  .copy-btn { position:absolute; bottom:8px; right:8px; background:#21262d; border:1px solid #30363d; border-radius:5px; padding:4px 6px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color 0.2s; }
+  .copy-btn svg { width:16px; height:16px; fill:#8b949e; }
+  .copy-btn.copied { border-color:#238636; }
+  footer { text-align:center; padding:2rem 1rem; color:#8b949e; border-top:1px solid #30363d; margin-top:4rem; }
+  a { color:#58a6ff; text-decoration:none; }
+  a:hover { text-decoration:underline; }
 
-  header {
-    background: #161b22;
-    padding: 2rem 1rem;
-    text-align: center;
-    border-bottom: 1px solid #30363d;
-  }
+  /* Playground */
+  #playground { margin-top:2rem; }
+  #editor { width:100%; height:200px; background:#161b22; color:#e6edf3; border-radius:8px; border:1px solid #30363d; padding:1rem; font-family:"Fira Code", monospace; font-size:0.95rem; resize:vertical; }
+  #run-btn { margin-top:0.5rem; padding:0.5rem 1rem; border:none; background:#238636; color:#fff; border-radius:5px; cursor:pointer; transition: background 0.2s; }
+  #run-btn:hover { background:#2ea043; }
+  #output { margin-top:1rem; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; min-height:50px; white-space:pre-wrap; }
 
-  header h1 {
-    font-size: 3rem;
-    margin: 0;
-    font-weight: 700;
-  }
-
-  header p {
-    font-size: 1.2rem;
-    color: #8b949e;
-    margin-top: 0.5rem;
-  }
-
-  main {
-    display: flex;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-
-  /* --- Sidebar --- */
-  nav {
-    flex: 0 0 200px;
-    margin-right: 2rem;
-    position: sticky;
-    top: 2rem;
-    align-self: flex-start;
-  }
-
-  nav a {
-    display: block;
-    color: #58a6ff;
-    text-decoration: none;
-    margin-bottom: 1rem;
-    font-weight: 600;
-  }
-
-  nav a:hover {
-    text-decoration: underline;
-  }
-
-  /* --- Content --- */
-  .content {
-    flex: 1;
-  }
-
-  h2 {
-    margin-top: 3rem;
-    font-size: 2rem;
-    border-bottom: 1px solid #30363d;
-    padding-bottom: 0.5rem;
-  }
-
-  .code-block {
-    position: relative;
-    margin: 1.5rem 0;
-  }
-
-  pre {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 1rem;
-    overflow-x: auto;
-  }
-
-  code {
-    font-family: "Fira Code", monospace;
-    font-size: 0.95rem;
-  }
-
-  /* Vey label */
-  .lang-label {
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    background: #21262d;
-    color: #8b949e;
-    font-size: 0.75rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    border: 1px solid #30363d;
-  }
-
-  /* Copy button */
-  .copy-btn {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: #21262d;
-    border: 1px solid #30363d;
-    border-radius: 5px;
-    padding: 4px 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: border-color 0.2s;
-  }
-
-  .copy-btn svg {
-    width: 16px;
-    height: 16px;
-    fill: #8b949e;
-  }
-
-  .copy-btn.copied {
-    border-color: #238636;
-  }
-
-  footer {
-    text-align: center;
-    padding: 2rem 1rem;
-    color: #8b949e;
-    border-top: 1px solid #30363d;
-    margin-top: 4rem;
-  }
-
-  a {
-    color: #58a6ff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
+  /* Dark/Light Toggle */
+  #theme-toggle { position:fixed; top:20px; right:20px; padding:6px 10px; border:none; border-radius:5px; cursor:pointer; background:#21262d; color:#8b949e; transition: background 0.3s, color 0.3s; }
+  #theme-toggle:hover { background:#30363d; }
 </style>
 </head>
 <body>
 
+<button id="theme-toggle">Toggle Dark/Light</button>
+
 <header>
   <h1>Vey</h1>
-  <p>A minimal, experimental programming language focused on clarity and simplicity.</p>
+  <p>Interactive Playground & Docs for the Vey Programming Language</p>
 </header>
 
 <main>
   <nav>
-    <a href="#home">Home</a>
+    <a href="#home" class="active">Home</a>
     <a href="#docs">Docs</a>
     <a href="#examples">Examples</a>
-    <a href="#roadmap">Roadmap</a>
+    <a href="#playground">Playground</a>
     <a href="#about">About</a>
   </nav>
 
   <div class="content">
-
-    <!-- Home Section -->
+    <!-- Home -->
     <section id="home">
       <h2># Home</h2>
-      <p>Vey is a minimal programming language built for experimentation, clarity, and simplicity.  
-      Learn, explore, and build your own interpreters, scripts, and projects with Vey.</p>
+      <p>Vey is a minimal programming language built for experimentation and clarity. Explore code, run it live, and learn quickly.</p>
     </section>
 
-    <!-- Docs Section -->
+    <!-- Docs -->
     <section id="docs">
       <h2># Docs</h2>
       <div class="code-block">
@@ -196,21 +85,9 @@
 let version = 0.1
 let active = true</code></pre>
       </div>
-
-      <div class="code-block">
-        <span class="lang-label">Vey</span>
-        <button class="copy-btn" title="Copy">
-          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-        </button>
-        <pre><code class="language-clike">func greet(person) {
-    print("Hello, " + person + "!")
-}
-
-greet("World")</code></pre>
-      </div>
     </section>
 
-    <!-- Examples Section -->
+    <!-- Examples -->
     <section id="examples">
       <h2># Examples</h2>
       <div class="code-block">
@@ -222,38 +99,20 @@ greet("World")</code></pre>
     print("Count: " + i)
 }</code></pre>
       </div>
-
-      <div class="code-block">
-        <span class="lang-label">Vey</span>
-        <button class="copy-btn" title="Copy">
-          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-        </button>
-        <pre><code class="language-clike">let fruits = ["apple", "banana", "cherry"]
-
-for fruit in fruits {
-    print(fruit)
-}</code></pre>
-      </div>
     </section>
 
-    <!-- Roadmap Section -->
-    <section id="roadmap">
-      <h2># Roadmap</h2>
-      <ul>
-        <li>Modules / Imports</li>
-        <li>Error handling</li>
-        <li>Expanded standard library</li>
-        <li>Live code playground</li>
-        <li>Potential GUI or web integration</li>
-      </ul>
+    <!-- Playground -->
+    <section id="playground">
+      <h2># Playground</h2>
+      <textarea id="editor" placeholder="Write Vey code here..."></textarea>
+      <button id="run-btn">Run Code</button>
+      <div id="output"></div>
     </section>
 
-    <!-- About Section -->
+    <!-- About -->
     <section id="about">
       <h2># About</h2>
-      <p>Vey is inspired by Lua, Python, and Rust.  
-      Its focus is minimalism, readability, and experimentation.  
-      Build scripts, interpreters, or small projects while learning language design.</p>
+      <p>Vey is inspired by Lua, Python, and Rust. Minimalism and readability are its core goals. Build scripts, learn language design, and experiment.</p>
       <p><a href="https://github.com/yourusername/vey">View on GitHub</a></p>
     </section>
   </div>
@@ -264,6 +123,14 @@ for fruit in fruits {
 </footer>
 
 <script>
+  // Scroll fade-in effect
+  const sections = document.querySelectorAll('h2');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('show'); } });
+  }, { threshold: 0.1 });
+  sections.forEach(s => observer.observe(s));
+
+  // Copy buttons
   document.querySelectorAll(".copy-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const code = btn.nextElementSibling.innerText;
@@ -272,6 +139,37 @@ for fruit in fruits {
         setTimeout(() => btn.classList.remove("copied"), 1500);
       });
     });
+  });
+
+  // Playground run (simple JS simulation)
+  document.getElementById("run-btn").addEventListener("click", () => {
+    const code = document.getElementById("editor").value;
+    const output = document.getElementById("output");
+    // For demo: just echo code (replace with real Vey interpreter logic)
+    output.textContent = "Output:\n" + code.split('\n').map(l => "> " + l).join('\n');
+  });
+
+  // Sidebar highlight
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    document.querySelectorAll('section').forEach(s => {
+      const sectionTop = s.offsetTop - 100;
+      if (pageYOffset >= sectionTop) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => a.classList.remove('active'));
+    document.querySelector(`nav a[href="#${current}"]`)?.classList.add('active');
+  });
+
+  // Dark/Light toggle
+  const themeBtn = document.getElementById("theme-toggle");
+  themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    if(document.body.classList.contains("light-mode")){
+      document.body.style.background="#fff"; document.body.style.color="#000";
+    }else{
+      document.body.style.background="#0d1117"; document.body.style.color="#e6edf3";
+    }
   });
 </script>
 

@@ -12,7 +12,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
   
   <style>
     body {
@@ -74,9 +73,23 @@
       font-size: 0.95rem;
     }
 
+    /* Vey label */
+    .lang-label {
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      background: #21262d;
+      color: #8b949e;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #30363d;
+    }
+
+    /* Copy button */
     .copy-btn {
       position: absolute;
-      top: 8px;
+      bottom: 8px;
       right: 8px;
       background: #21262d;
       border: 1px solid #30363d;
@@ -86,19 +99,13 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.2s;
+      transition: border-color 0.2s;
     }
 
     .copy-btn svg {
       width: 16px;
       height: 16px;
       fill: #8b949e;
-    }
-
-    .code-block:hover .copy-btn,
-    .code-block:focus-within .copy-btn {
-      opacity: 1;
     }
 
     .copy-btn.copied {
@@ -132,6 +139,7 @@
   <main>
     <h2># Variables</h2>
     <div class="code-block">
+      <span class="lang-label">Vey</span>
       <button class="copy-btn" title="Copy">
         <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
       </button>
@@ -142,6 +150,7 @@ let active = true</code></pre>
 
     <h2># Functions</h2>
     <div class="code-block">
+      <span class="lang-label">Vey</span>
       <button class="copy-btn" title="Copy">
         <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
       </button>
@@ -154,6 +163,7 @@ greet("World")</code></pre>
 
     <h2># Control Flow</h2>
     <div class="code-block">
+      <span class="lang-label">Vey</span>
       <button class="copy-btn" title="Copy">
         <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
       </button>
@@ -168,6 +178,7 @@ if x > 5 {
 
     <h2># Loops</h2>
     <div class="code-block">
+      <span class="lang-label">Vey</span>
       <button class="copy-btn" title="Copy">
         <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
       </button>
@@ -178,6 +189,7 @@ if x > 5 {
 
     <h2># Data Structures</h2>
     <div class="code-block">
+      <span class="lang-label">Vey</span>
       <button class="copy-btn" title="Copy">
         <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
       </button>

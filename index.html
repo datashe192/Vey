@@ -1,220 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vey — Minimal Programming Language</title>
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vey — Minimal Programming Language</title>
 
-  <!-- Prism.js for code highlighting -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
-  
-  <style>
-    body {
-      font-family: "Inter", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #0d1117;
-      color: #e6edf3;
-      line-height: 1.6;
-    }
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-    header {
-      background: #161b22;
-      padding: 3rem 1rem;
-      text-align: center;
-      border-bottom: 1px solid #30363d;
-    }
+<!-- Prism.js for code highlighting -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
 
-    header h1 {
-      font-size: 3rem;
-      margin: 0;
-      font-weight: 700;
-    }
+<style>
+  /* --- Basic Layout --- */
+  body {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #0d1117;
+    color: #e6edf3;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
 
-    header p {
-      font-size: 1.2rem;
-      color: #8b949e;
-      margin-top: 0.5rem;
-    }
+  header {
+    background: #161b22;
+    padding: 2rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #30363d;
+  }
 
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
+  header h1 {
+    font-size: 3rem;
+    margin: 0;
+    font-weight: 700;
+  }
 
-    h2 {
-      margin-top: 3rem;
-      font-size: 2rem;
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 0.5rem;
-    }
+  header p {
+    font-size: 1.2rem;
+    color: #8b949e;
+    margin-top: 0.5rem;
+  }
 
-    .code-block {
-      position: relative;
-      margin: 1.5rem 0;
-    }
+  main {
+    display: flex;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
 
-    pre {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 1rem;
-      overflow-x: auto;
-    }
+  /* --- Sidebar --- */
+  nav {
+    flex: 0 0 200px;
+    margin-right: 2rem;
+    position: sticky;
+    top: 2rem;
+    align-self: flex-start;
+  }
 
-    code {
-      font-family: "Fira Code", monospace;
-      font-size: 0.95rem;
-    }
+  nav a {
+    display: block;
+    color: #58a6ff;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
 
-    /* Vey label */
-    .lang-label {
-      position: absolute;
-      top: 6px;
-      right: 10px;
-      background: #21262d;
-      color: #8b949e;
-      font-size: 0.75rem;
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid #30363d;
-    }
+  nav a:hover {
+    text-decoration: underline;
+  }
 
-    /* Copy button */
-    .copy-btn {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 5px;
-      padding: 4px 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
+  /* --- Content --- */
+  .content {
+    flex: 1;
+  }
 
-    .copy-btn svg {
-      width: 16px;
-      height: 16px;
-      fill: #8b949e;
-    }
+  h2 {
+    margin-top: 3rem;
+    font-size: 2rem;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 0.5rem;
+  }
 
-    .copy-btn.copied {
-      border-color: #238636;
-    }
+  .code-block {
+    position: relative;
+    margin: 1.5rem 0;
+  }
 
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      color: #8b949e;
-      border-top: 1px solid #30363d;
-      margin-top: 4rem;
-    }
+  pre {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
 
-    a {
-      color: #58a6ff;
-      text-decoration: none;
-    }
+  code {
+    font-family: "Fira Code", monospace;
+    font-size: 0.95rem;
+  }
 
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  /* Vey label */
+  .lang-label {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    background: #21262d;
+    color: #8b949e;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #30363d;
+  }
+
+  /* Copy button */
+  .copy-btn {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 5px;
+    padding: 4px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .copy-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #8b949e;
+  }
+
+  .copy-btn.copied {
+    border-color: #238636;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #8b949e;
+    border-top: 1px solid #30363d;
+    margin-top: 4rem;
+  }
+
+  a {
+    color: #58a6ff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Vey</h1>
-    <p>A minimal, experimental programming language focused on clarity and simplicity.</p>
-  </header>
 
-  <main>
-    <h2># Variables</h2>
-    <div class="code-block">
-      <span class="lang-label">Vey</span>
-      <button class="copy-btn" title="Copy">
-        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-      </button>
-      <pre><code class="language-clike">let name = "Vey"
+<header>
+  <h1>Vey</h1>
+  <p>A minimal, experimental programming language focused on clarity and simplicity.</p>
+</header>
+
+<main>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#docs">Docs</a>
+    <a href="#examples">Examples</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#about">About</a>
+  </nav>
+
+  <div class="content">
+
+    <!-- Home Section -->
+    <section id="home">
+      <h2># Home</h2>
+      <p>Vey is a minimal programming language built for experimentation, clarity, and simplicity.  
+      Learn, explore, and build your own interpreters, scripts, and projects with Vey.</p>
+    </section>
+
+    <!-- Docs Section -->
+    <section id="docs">
+      <h2># Docs</h2>
+      <div class="code-block">
+        <span class="lang-label">Vey</span>
+        <button class="copy-btn" title="Copy">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+        </button>
+        <pre><code class="language-clike">let name = "Vey"
 let version = 0.1
 let active = true</code></pre>
-    </div>
+      </div>
 
-    <h2># Functions</h2>
-    <div class="code-block">
-      <span class="lang-label">Vey</span>
-      <button class="copy-btn" title="Copy">
-        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-      </button>
-      <pre><code class="language-clike">func greet(person) {
+      <div class="code-block">
+        <span class="lang-label">Vey</span>
+        <button class="copy-btn" title="Copy">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+        </button>
+        <pre><code class="language-clike">func greet(person) {
     print("Hello, " + person + "!")
 }
 
 greet("World")</code></pre>
-    </div>
+      </div>
+    </section>
 
-    <h2># Control Flow</h2>
-    <div class="code-block">
-      <span class="lang-label">Vey</span>
-      <button class="copy-btn" title="Copy">
-        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-      </button>
-      <pre><code class="language-clike">let x = 10
-
-if x > 5 {
-    print("Greater than 5")
-} else {
-    print("5 or less")
-}</code></pre>
-    </div>
-
-    <h2># Loops</h2>
-    <div class="code-block">
-      <span class="lang-label">Vey</span>
-      <button class="copy-btn" title="Copy">
-        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-      </button>
-      <pre><code class="language-clike">for i in 1..5 {
+    <!-- Examples Section -->
+    <section id="examples">
+      <h2># Examples</h2>
+      <div class="code-block">
+        <span class="lang-label">Vey</span>
+        <button class="copy-btn" title="Copy">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+        </button>
+        <pre><code class="language-clike">for i in 1..5 {
     print("Count: " + i)
 }</code></pre>
-    </div>
+      </div>
 
-    <h2># Data Structures</h2>
-    <div class="code-block">
-      <span class="lang-label">Vey</span>
-      <button class="copy-btn" title="Copy">
-        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-      </button>
-      <pre><code class="language-clike">let fruits = ["apple", "banana", "cherry"]
+      <div class="code-block">
+        <span class="lang-label">Vey</span>
+        <button class="copy-btn" title="Copy">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+        </button>
+        <pre><code class="language-clike">let fruits = ["apple", "banana", "cherry"]
 
 for fruit in fruits {
     print(fruit)
 }</code></pre>
-    </div>
-  </main>
+      </div>
+    </section>
 
-  <footer>
-    <p>Made with ❤️ for experimentation — <a href="https://github.com/yourusername/vey">View on GitHub</a></p>
-  </footer>
+    <!-- Roadmap Section -->
+    <section id="roadmap">
+      <h2># Roadmap</h2>
+      <ul>
+        <li>Modules / Imports</li>
+        <li>Error handling</li>
+        <li>Expanded standard library</li>
+        <li>Live code playground</li>
+        <li>Potential GUI or web integration</li>
+      </ul>
+    </section>
 
-  <script>
-    document.querySelectorAll(".copy-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const code = btn.nextElementSibling.innerText;
-        navigator.clipboard.writeText(code).then(() => {
-          btn.classList.add("copied");
-          setTimeout(() => btn.classList.remove("copied"), 1500);
-        });
+    <!-- About Section -->
+    <section id="about">
+      <h2># About</h2>
+      <p>Vey is inspired by Lua, Python, and Rust.  
+      Its focus is minimalism, readability, and experimentation.  
+      Build scripts, interpreters, or small projects while learning language design.</p>
+      <p><a href="https://github.com/yourusername/vey">View on GitHub</a></p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <p>Made with ❤️ for experimentation — <a href="https://github.com/yourusername/vey">View on GitHub</a></p>
+</footer>
+
+<script>
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const code = btn.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.classList.add("copied");
+        setTimeout(() => btn.classList.remove("copied"), 1500);
       });
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>

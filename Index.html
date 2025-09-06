@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vey — Minimal Programming Language</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Prism.js for code highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #161b22;
+      padding: 3rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #30363d;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #8b949e;
+      margin-top: 0.5rem;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h2 {
+      margin-top: 3rem;
+      font-size: 2rem;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 0.5rem;
+    }
+
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: "Fira Code", monospace;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #8b949e;
+      border-top: 1px solid #30363d;
+      margin-top: 4rem;
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Vey</h1>
+    <p>A minimal, experimental programming language focused on clarity and simplicity.</p>
+  </header>
+
+  <main>
+    <h2># Variables</h2>
+    <pre><code class="language-clike">let name = "Vey"
+let version = 0.1
+let active = true</code></pre>
+
+    <h2># Functions</h2>
+    <pre><code class="language-clike">func greet(person) {
+    print("Hello, " + person + "!")
+}
+
+greet("World")</code></pre>
+
+    <h2># Control Flow</h2>
+    <pre><code class="language-clike">let x = 10
+
+if x > 5 {
+    print("Greater than 5")
+} else {
+    print("5 or less")
+}</code></pre>
+
+    <h2># Loops</h2>
+    <pre><code class="language-clike">for i in 1..5 {
+    print("Count: " + i)
+}</code></pre>
+
+    <h2># Data Structures</h2>
+    <pre><code class="language-clike">let fruits = ["apple", "banana", "cherry"]
+
+for fruit in fruits {
+    print(fruit)
+}</code></pre>
+  </main>
+
+  <footer>
+    <p>Made with ❤️ for experimentation — <a href="https://github.com/yourusername/vey">View on GitHub</a></p>
+  </footer>
+</body>
+</html>

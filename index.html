@@ -3,837 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vey — Interactive Playground</title>
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-
-<!-- Prism.js for code highlighting -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
-
+<title>Vey Library Docs</title>
 <style>
-  :root {
-    --bg-primary: #0d1117;
-    --bg-secondary: #161b22;
-    --bg-tertiary: #21262d;
-    --border-color: #30363d;
-    --text-primary: #e6edf3;
-    --text-secondary: #8b949e;
-    --accent-blue: #58a6ff;
-    --accent-green: #238636;
-    --accent-green-hover: #2ea043;
-    --accent-red: #f85149;
-    --shadow: 0 8px 24px rgba(0,0,0,0.12);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body { 
-    font-family: "Inter", sans-serif; 
-    margin: 0; 
-    padding: 0; 
-    background: var(--bg-primary); 
-    color: var(--text-primary); 
-    line-height: 1.6; 
-    scroll-behavior: smooth; 
-    transition: var(--transition);
-    overflow-x: hidden;
-  }
-
-  /* Smooth scrollbar */
-  ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: var(--bg-secondary); }
-  ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
-
-  header { 
-    background: var(--bg-secondary); 
-    padding: 4rem 1rem; 
-    text-align: center; 
-    border-bottom: 1px solid var(--border-color);
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-    position: relative;
-    overflow: hidden;
-  }
-
-  header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(88, 166, 255, 0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  header h1 { 
-    font-size: 4rem; 
-    margin: 0; 
-    font-weight: 700; 
-    background: linear-gradient(135deg, var(--accent-blue), #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: fadeInUp 0.8s ease-out;
-    position: relative;
-  }
-
-  header p { 
-    font-size: 1.3rem; 
-    color: var(--text-secondary); 
-    margin-top: 1rem;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  main { 
-    display: flex; 
-    max-width: 1400px; 
-    margin: 3rem auto; 
-    padding: 0 2rem; 
-    gap: 3rem;
-  }
-
-  nav { 
-    flex: 0 0 220px; 
-    position: sticky; 
-    top: 2rem; 
-    align-self: flex-start;
-    background: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow);
-  }
-
-  nav a { 
-    display: block; 
-    color: var(--text-secondary); 
-    text-decoration: none; 
-    margin-bottom: 1rem; 
-    font-weight: 500;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-  }
-
-  nav a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
-    transition: left 0.5s ease;
-  }
-
-  nav a:hover::before {
-    left: 100%;
-  }
-
-  nav a.active, nav a:hover { 
-    color: var(--accent-blue);
-    background: rgba(88, 166, 255, 0.1);
-    transform: translateX(4px);
-  }
-
-  .content { 
-    flex: 1; 
-    min-width: 0;
-  }
-
-  section {
-    margin-bottom: 4rem;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  section.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  h2 { 
-    margin: 0 0 2rem 0; 
-    font-size: 2.5rem; 
-    border-bottom: 2px solid var(--border-color); 
-    padding-bottom: 1rem;
-    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: relative;
-  }
-
-  h2::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent-blue), #7c3aed);
-    border-radius: 1px;
-  }
-
-  .code-block { 
-    position: relative; 
-    margin: 2rem 0;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-  }
-
-  .code-block:hover {
-    border-color: var(--accent-blue);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-  }
-
-  pre { 
-    background: transparent; 
-    border: none; 
-    border-radius: 0; 
-    padding: 1.5rem; 
-    overflow-x: auto; 
+/* --- General Styles --- */
+body {
     margin: 0;
-  }
-
-  code { 
-    font-family: "Fira Code", monospace; 
-    font-size: 0.95rem; 
-    font-weight: 500;
-  }
-
-  .lang-label { 
-    position: absolute; 
-    top: 12px; 
-    right: 12px; 
-    background: var(--bg-tertiary); 
-    color: var(--text-secondary); 
-    font-size: 0.75rem; 
-    padding: 4px 10px; 
-    border-radius: 6px; 
-    border: 1px solid var(--border-color);
-    font-weight: 500;
-  }
-
-  .copy-btn { 
-    position: absolute; 
-    bottom: 12px; 
-    right: 12px; 
-    background: var(--bg-tertiary); 
-    border: 1px solid var(--border-color); 
-    border-radius: 8px; 
-    padding: 8px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    cursor: pointer; 
-    transition: var(--transition);
-    opacity: 0.7;
-  }
-
-  .copy-btn:hover {
-    opacity: 1;
-    border-color: var(--accent-blue);
-    transform: scale(1.05);
-  }
-
-  .copy-btn svg { 
-    width: 16px; 
-    height: 16px; 
-    fill: var(--text-secondary); 
-    transition: var(--transition);
-  }
-
-  .copy-btn.copied { 
-    border-color: var(--accent-green); 
-    background: rgba(35, 134, 54, 0.1);
-  }
-
-  .copy-btn.copied svg {
-    fill: var(--accent-green);
-  }
-
-  /* Enhanced Playground */
-  #playground { 
-    margin-top: 2rem; 
-  }
-
-  .editor-container {
-    position: relative;
-    margin: 1.5rem 0;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--bg-secondary);
-    border: 2px solid var(--border-color);
-    transition: var(--transition);
-  }
-
-  .editor-container:focus-within {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
-  }
-
-  .editor-header {
-    background: var(--bg-tertiary);
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 0.85rem;
-    color: var(--text-secondary);
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212;
+    color: #eee;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
-  .editor-title {
-    font-weight: 500;
-  }
-
-  .line-numbers {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
-    padding: 1rem 0.75rem;
-    font-family: "Fira Code", monospace;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    user-select: none;
-    border-right: 1px solid var(--border-color);
-    min-width: 40px;
-    text-align: right;
-  }
-
-  #editor { 
-    width: calc(100% - 60px); 
-    height: 250px; 
-    background: transparent; 
-    color: var(--text-primary); 
-    border: none;
-    padding: 1rem; 
-    font-family: "Fira Code", monospace; 
-    font-size: 0.95rem; 
-    resize: vertical; 
-    outline: none;
-    line-height: 1.5;
-    tab-size: 2;
-  }
-
-  .editor-content {
-    display: flex;
-  }
-
-  .controls {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-top: 1rem;
-  }
-
-  #run-btn { 
-    padding: 0.75rem 1.5rem; 
-    border: none; 
-    background: linear-gradient(135deg, var(--accent-green), #2ea043); 
-    color: #fff; 
-    border-radius: 8px; 
-    cursor: pointer; 
-    transition: var(--transition);
-    font-weight: 600;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
-    position: relative;
-    overflow: hidden;
-  }
-
-  #run-btn::before {
-    content: '';
-    position: absolute;
+/* --- Sidebar --- */
+.sidebar {
+    position: fixed;
     top: 0;
-    left: -100%;
-    width: 100%;
+    left: 0;
+    width: 220px;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
-  }
-
-  #run-btn:hover::before {
-    left: 100%;
-  }
-
-  #run-btn:hover { 
-    background: linear-gradient(135deg, var(--accent-green-hover), #238636);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(35, 134, 54, 0.4);
-  }
-
-  #run-btn:active {
-    transform: translateY(0);
-  }
-
-  #clear-btn {
-    padding: 0.75rem 1.5rem;
-    border: 2px solid var(--border-color);
-    background: transparent;
-    color: var(--text-secondary);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-weight: 500;
-    font-size: 0.95rem;
-  }
-
-  #clear-btn:hover {
-    border-color: var(--accent-blue);
-    color: var(--accent-blue);
-    background: rgba(88, 166, 255, 0.1);
-  }
-
-  #output { 
-    margin-top: 1.5rem; 
-    background: var(--bg-secondary); 
-    border: 1px solid var(--border-color); 
-    border-radius: 12px; 
-    padding: 1.5rem; 
-    min-height: 100px; 
-    white-space: pre-wrap; 
-    font-family: "Fira Code", monospace;
-    font-size: 0.9rem;
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow-x: auto;
-  }
-
-  .output-header {
+    background-color: #1b1b1b;
     display: flex;
-    justify-content: between;
-    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
+}
+.sidebar button {
+    background: none;
+    border: none;
+    color: #aaa;
+    padding: 12px 20px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+.sidebar button.active, .sidebar button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* --- Main Content --- */
+.main-content {
+    margin-left: 240px;
+    padding: 2rem;
+    flex: 1;
+}
+h1.section-title {
+    font-size: 2rem;
+    margin-top: 3rem;
     margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-  }
+    border-bottom: 2px solid #444;
+    padding-bottom: 0.3rem;
+}
 
-  .output-title {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    font-weight: 500;
-  }
-
-  .error {
-    color: var(--accent-red);
-    font-weight: 500;
-  }
-
-  .success {
-    color: var(--accent-green);
-  }
-
-  footer { 
-    text-align: center; 
-    padding: 3rem 1rem; 
-    color: var(--text-secondary); 
-    border-top: 1px solid var(--border-color); 
-    margin-top: 6rem;
-    background: var(--bg-secondary);
-  }
-
-  a { 
-    color: var(--accent-blue); 
-    text-decoration: none; 
-    transition: var(--transition);
-  }
-
-  a:hover { 
-    text-decoration: underline; 
-    color: #7c3aed;
-  }
-
-  /* Dark/Light Toggle */
-  #theme-toggle { 
-    position: fixed; 
-    top: 20px; 
-    right: 20px; 
-    padding: 10px 15px; 
-    border: 2px solid var(--border-color); 
-    border-radius: 25px; 
-    cursor: pointer; 
-    background: var(--bg-secondary); 
-    color: var(--text-secondary); 
-    transition: var(--transition);
-    font-weight: 500;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-  }
-
-  #theme-toggle:hover { 
-    border-color: var(--accent-blue);
-    color: var(--accent-blue);
-    transform: scale(1.05);
-  }
-
-  /* Loading animation */
-  .loading {
-    display: inline-block;
+/* --- Code Blocks --- */
+pre {
+    background-color: #222;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    position: relative;
+    font-family: monospace;
+}
+pre::before {
+    content: "Vey";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+.copy-btn {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
     width: 20px;
     height: 20px;
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    border-top-color: var(--accent-blue);
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 0.5rem;
-  }
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+.copy-btn::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.copy-btn::after {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    position: absolute;
+    top: -4px;
+    left: 4px;
+}
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    main {
-      flex-direction: column;
-      padding: 0 1rem;
-      gap: 2rem;
-    }
-
-    nav {
-      position: static;
-      flex: none;
-      order: -1;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-    }
-
-    .editor-content {
-      flex-direction: column;
-    }
-
-    #editor {
-      width: 100%;
-    }
-
-    .line-numbers {
-      display: none;
-    }
-  }
+/* --- Smooth Scroll --- */
+html {
+    scroll-behavior: smooth;
+}
 </style>
 </head>
 <body>
 
-<button id="theme-toggle">🌙 Dark Mode</button>
+<div class="sidebar">
+    <button data-target="variables">Vey</button>
+    <button data-target="functions">Functions</button>
+    <button data-target="controlflow">Control Flow</button>
+    <button data-target="loops">Loops</button>
+    <button data-target="datastructures">Data Structures</button>
+    <button data-target="library">Library</button>
+</div>
 
-<header>
-  <h1>Vey</h1>
-  <p>Interactive Playground & Docs for the Vey Programming Language</p>
-</header>
+<div class="main-content">
 
-<main>
-  <nav>
-    <a href="#home" class="active">🏠 Home</a>
-    <a href="#docs">📚 Docs</a>
-    <a href="#examples">💡 Examples</a>
-    <a href="#playground">🎮 Playground</a>
-    <a href="#about">ℹ️ About</a>
-  </nav>
-
-  <div class="content">
-    <!-- Home -->
-    <section id="home">
-      <h2># Welcome to Vey</h2>
-      <p>Vey is a minimal programming language built for experimentation and clarity. Explore code, run it live, and learn quickly with our interactive playground.</p>
-      <p>Features include simple syntax, powerful constructs, and real-time execution. Perfect for learning programming concepts or rapid prototyping.</p>
-    </section>
-
-    <!-- Docs -->
-    <section id="docs">
-      <h2># Documentation</h2>
-      <h3>Variables & Types</h3>
-      <div class="code-block">
-        <span class="lang-label">Vey</span>
-        <button class="copy-btn" title="Copy">
-          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-        </button>
-        <pre><code class="language-clike">let name = "Vey"
+<section id="variables">
+<h1 class="section-title">Variables</h1>
+<pre>
+let name = "Vey"
 let version = 0.1
 let active = true
-let numbers = [1, 2, 3, 4, 5]</code></pre>
-      </div>
+</pre>
+</section>
 
-      <h3>Functions</h3>
-      <div class="code-block">
-        <span class="lang-label">Vey</span>
-        <button class="copy-btn" title="Copy">
-          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-        </button>
-        <pre><code class="language-clike">fn greet(name) {
-    return "Hello, " + name + "!"
+<section id="functions">
+<h1 class="section-title">Functions</h1>
+<pre>
+func greet(person) {
+    print("Hello, " + person + "!")
 }
 
-print(greet("World"))</code></pre>
-      </div>
-    </section>
+greet("World")
+</pre>
+</section>
 
-    <!-- Examples -->
-    <section id="examples">
-      <h2># Examples</h2>
-      <h3>Loops & Control Flow</h3>
-      <div class="code-block">
-        <span class="lang-label">Vey</span>
-        <button class="copy-btn" title="Copy">
-          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-        </button>
-        <pre><code class="language-clike">for i in 1..5 {
-    if i % 2 == 0 {
-        print("Even: " + i)
-    } else {
-        print("Odd: " + i)
-    }
-}</code></pre>
-      </div>
+<section id="controlflow">
+<h1 class="section-title">Control Flow</h1>
+<pre>
+let x = 10
 
-      <h3>Working with Arrays</h3>
-      <div class="code-block">
-        <span class="lang-label">Vey</span>
-        <button class="copy-btn" title="Copy">
-          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
-        </button>
-        <pre><code class="language-clike">let fruits = ["apple", "banana", "orange"]
-fruits.push("grape")
+if x > 5 {
+    print("Greater than 5")
+} else {
+    print("5 or less")
+}
+</pre>
+</section>
+
+<section id="loops">
+<h1 class="section-title">Loops</h1>
+<pre>
+for i in 1..5 {
+    print("Count: " + i)
+}
+</pre>
+</section>
+
+<section id="datastructures">
+<h1 class="section-title">Data Structures</h1>
+<pre>
+let fruits = ["apple", "banana", "cherry"]
 
 for fruit in fruits {
-    print("I love " + fruit)
-}</code></pre>
-      </div>
-    </section>
+    print(fruit)
+}
+</pre>
+</section>
 
-    <!-- Playground -->
-    <section id="playground">
-      <h2># Interactive Playground</h2>
-      <p>Write and execute Vey code in real-time. Try the examples above or write your own!</p>
-      
-      <div class="editor-container">
-        <div class="editor-header">
-          <span class="editor-title">main.vey</span>
-          <span>Ready to run</span>
-        </div>
-        <div class="editor-content">
-          <div class="line-numbers" id="line-numbers">1</div>
-          <textarea id="editor" placeholder="Write Vey code here...
-Try: print('Hello, World!')">print("Hello, World!")</textarea>
-        </div>
-      </div>
+<section id="library">
+<h1 class="section-title">Library</h1>
+<pre>
+let veyexecutor === require(library, "Vey")
+</pre>
+</section>
 
-      <div class="controls">
-        <button id="run-btn">▶️ Run Code</button>
-        <button id="clear-btn">🗑️ Clear</button>
-      </div>
-
-      <div id="output">
-        <div class="output-header">
-          <span class="output-title">Output</span>
-        </div>
-        <span style="color: var(--text-secondary); font-style: italic;">Click "Run Code" to see output here...</span>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about">
-      <h2># About Vey</h2>
-      <p>Vey is inspired by modern languages like Lua, Python, and Rust. Its core philosophy centers around minimalism and readability, making it perfect for scripting, learning language design, and rapid experimentation.</p>
-      <p>Key features include:</p>
-      <ul>
-        <li><strong>Simple Syntax:</strong> Clean and readable code structure</li>
-        <li><strong>Dynamic Typing:</strong> Flexible variable types</li>
-        <li><strong>Built-in Functions:</strong> Common operations out of the box</li>
-        <li><strong>Interactive Environment:</strong> Real-time code execution</li>
-      </ul>
-      <p><a href="https://github.com/yourusername/vey" target="_blank">📁 View on GitHub</a></p>
-    </section>
-  </div>
-</main>
-
-<footer>
-  <p>Made with ❤️ for experimentation — <a href="https://github.com/yourusername/vey" target="_blank">View on GitHub</a></p>
-</footer>
+</div>
 
 <script>
-  // Vey Language Interpreter
-  class VeyInterpreter {
-    constructor() {
-      this.variables = {};
-      this.functions = {};
-      this.output = [];
+// Smooth scrolling & sidebar highlight
+const sections = document.querySelectorAll('section');
+const buttons = document.querySelectorAll('.sidebar button');
+
+function setActiveButton() {
+    let index = sections.length - 1;
+    for(let i=0; i<sections.length; i++){
+        const rect = sections[i].getBoundingClientRect();
+        if(rect.top - 60 <= 0) index = i;
+        else break;
     }
+    buttons.forEach(btn => btn.classList.remove('active'));
+    buttons[index].classList.add('active');
+}
 
-    // Tokenizer
-    tokenize(code) {
-      const tokens = [];
-      const patterns = [
-        { type: 'COMMENT', regex: /\/\/.*$/gm },
-        { type: 'STRING', regex: /"([^"\\]|\\.)*"/g },
-        { type: 'STRING', regex: /'([^'\\]|\\.)*'/g },
-        { type: 'NUMBER', regex: /\d+\.?\d*/g },
-        { type: 'KEYWORD', regex: /\b(let|fn|if|else|for|in|while|return|true|false|null)\b/g },
-        { type: 'IDENTIFIER', regex: /[a-zA-Z_][a-zA-Z0-9_]*/g },
-        { type: 'OPERATOR', regex: /[+\-*/%=<>!&|]+/g },
-        { type: 'PUNCTUATION', regex: /[(){}[\],;.]/g },
-        { type: 'RANGE', regex: /\.\./g },
-        { type: 'WHITESPACE', regex: /\s+/g }
-      ];
+window.addEventListener('scroll', setActiveButton);
 
-      let remaining = code;
-      let position = 0;
+// Click sidebar to scroll
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.getElementById(btn.dataset.target).scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+});
 
-      while (remaining.length > 0) {
-        let matched = false;
-        
-        for (let pattern of patterns) {
-          const match = remaining.match(pattern.regex);
-          if (match && match.index === 0) {
-            if (pattern.type !== 'WHITESPACE' && pattern.type !== 'COMMENT') {
-              tokens.push({
-                type: pattern.type,
-                value: match[0],
-                position
-              });
-            }
-            remaining = remaining.substring(match[0].length);
-            position += match[0].length;
-            matched = true;
-            break;
-          }
-        }
+// Clipboard buttons
+document.querySelectorAll('pre').forEach(pre => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.onclick = () => navigator.clipboard.writeText(pre.textContent.replace("Vey","").trim());
+    pre.appendChild(btn);
+});
+</script>
 
-        if (!matched) {
-          throw new Error(`Unexpected character at position ${position}: ${remaining[0]}`);
-        }
-      }
-
-      return tokens;
-    }
-
-    // Parser
-    parse(tokens) {
-      this.tokens = tokens;
-      this.current = 0;
-      const statements = [];
-
-      while (!this.isAtEnd()) {
-        const stmt = this.statement();
-        if (stmt) statements.push(stmt);
-      }
-
-      return statements;
-    }
-
-    statement() {
-      try {
-        if (this.match('KEYWORD')) {
-          const keyword = this.previous().value;
-          
-          switch (keyword) {
-            case 'let': return this.varDeclaration();
-            case 'fn': return this.functionDeclaration();
-            case 'if': return this.ifStatement();
-            case 'for': return this.forStatement();
-            case 'while': return this.whileStatement();
-            case 'return': return this.returnStatement();
-            default:
-              this.current--;
-              return this.expressionStatement();
-          }
-        }
-        return this.expressionStatement();
-      } catch (error) {
-        this.synchronize();
-        throw error;
-      }
-    }
-
-    varDeclaration() {
-      const name = this.consume('IDENTIFIER', "Expected variable name").value;
-      this.consume('OPERATOR', "Expected '=' after variable name");
-      const initializer = this.expression();
-      return { type: 'VAR', name, initializer };
-    }
-
-    functionDeclaration() {
-      const name = this.consume('IDENTIFIER', "Expected function name").value;
-      this.consume('PUNCTUATION', "Expected '(' after function name");
-      
-      const params = [];
-      if (!this.check('PUNCTUATION', ')')) {
-        do {
-          params.push(this.consume('IDENTIFIER', "Expected parameter name").value);
-        } while (this.match('PUNCTUATION', ','));
-      }
-      
-      this.consume('PUNCTUATION', "Expected ')' after parameters");
-      this.consume('PUNCTUATION', "Expected '{' before function body");
-      
-      const body = [];
-      while (!this.check('PUNCTUATION', '}') && !this.isAtEnd()) {
-        body.push(this.statement());
-      }
-      
-      this.consume('PUNCTUATION', "Expected '}' after function body");
-      
-      return { type: 'FUNCTION', name, params, body };
-    }
-
-    ifStatement() {
-      this.consume('PUNCTUATION', "Expected '(' after 'if'");
-      const condition = this.expression();
-      this.consume('PUNCTUATION', "Expected ')' after if condition");
-      this.consume('PUNCTUATION', "Expected '{' after if condition");
-      
-      const thenBranch = [];
-      while (!this.check('PUNCTUATION', '}') && !this.isAtEnd()) {
-        thenBranch.push(this.statement());
-      }
-      
-      this.consume('PUNCTUATION', "Expected '}' after if body");
-      
-      let elseBranch = null;
-      if (this.match('KEYWORD', 'else')) {
-        this.consume('PUNCTUATION', "Expected '{' after 'else'");
-        elseBranch = [];
-        while (!this.check('PUNCTUATION', '}') && !this.isAtEnd()) {
-          elseBranch.push(this.statement());
-        }
-        this.consume('PUNCTUATION', "Expected '}' after else body");
-      }
-      
-      return { type: 'IF', condition, thenBranch, elseBranch };
-    }
-
-    forStatement() {
-      const variable = this.consume('IDENTIFIER', "Expected variable name after 'for'").value;
-      this.consume('KEYWORD', "Expected 'in' after for variable");
-      const iterable = this.expression();
-      this.consume('PUNCTUATION', "Expected '{' after for expression");
-      
-      const body = [];
-      while (!this.check('PUNCTUATION', '}') && !this.isAtEnd()) {
-        body.push(this.statement());
-      }
-      
-      this.consume('PUNCTUATION', "Expected '}' after for body");
-      
-      return { type: '
+</body>
+</html>

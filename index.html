@@ -53,10 +53,18 @@ a {
 }
 h1.section-title {
     font-size: 2rem;
-    margin-top: 3rem;
+    margin-top: 4rem;
     margin-bottom: 1rem;
     border-bottom: 2px solid #444;
     padding-bottom: 0.3rem;
+}
+
+/* --- Paragraphs --- */
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #ccc;
 }
 
 /* --- Code Blocks --- */
@@ -133,15 +141,18 @@ html {
 
 <section id="variables">
 <h1 class="section-title">Variables</h1>
+<p>Variables in Vey are used to store information. They can hold numbers, strings, booleans, or even more complex structures like arrays. Vey uses <code>let</code> to define variables easily and clearly.</p>
 <pre>
 let name = "Vey"
 let version = 0.1
 let active = true
 </pre>
+<p>Variables are dynamic, meaning their values can change during runtime. You can reassign them whenever needed.</p>
 </section>
 
 <section id="functions">
 <h1 class="section-title">Functions</h1>
+<p>Functions are blocks of reusable code. In Vey, you define a function using <code>func</code> and end it with <code>end</code>. Functions can accept parameters and return values.</p>
 <pre>
 func greet(person) {
     print("Hello, " + person + "!")
@@ -149,10 +160,12 @@ func greet(person) {
 
 greet("World")
 </pre>
+<p>Functions help make your code modular and easier to maintain. They are fundamental to structuring larger Vey programs.</p>
 </section>
 
 <section id="controlflow">
 <h1 class="section-title">Control Flow</h1>
+<p>Control flow determines how your program executes statements based on conditions. Vey provides <code>if</code>, <code>else</code>, and comparison operators for flexible logic handling.</p>
 <pre>
 let x = 10
 
@@ -162,19 +175,23 @@ if x > 5 {
     print("5 or less")
 }
 </pre>
+<p>Use control flow to make decisions dynamically in your Vey programs.</p>
 </section>
 
 <section id="loops">
 <h1 class="section-title">Loops</h1>
+<p>Loops allow you to execute a block of code multiple times. Vey supports range-based loops and iteration over arrays.</p>
 <pre>
 for i in 1..5 {
     print("Count: " + i)
 }
 </pre>
+<p>Loops are essential for repetitive tasks, data processing, and algorithm implementation.</p>
 </section>
 
 <section id="datastructures">
 <h1 class="section-title">Data Structures</h1>
+<p>Vey provides arrays as a basic data structure for storing lists of items. You can iterate, modify, and access elements easily.</p>
 <pre>
 let fruits = ["apple", "banana", "cherry"]
 
@@ -182,36 +199,38 @@ for fruit in fruits {
     print(fruit)
 }
 </pre>
+<p>Arrays can hold any type of data and are highly versatile for managing collections of values.</p>
 </section>
 
 <section id="library">
 <h1 class="section-title">Library</h1>
+<p>The Vey library allows you to execute Vey code dynamically and integrate it into other projects. You can import it using <code>require</code>.</p>
 <pre>
 let veyexecutor === require(library, "Vey")
 </pre>
+<p>With the library, you can programmatically evaluate Vey scripts, manage multiple files, or create your own Vey-powered applications.</p>
 </section>
 
 </div>
 
 <script>
-// Smooth scrolling & sidebar highlight
+// Sidebar buttons & scroll highlight
 const sections = document.querySelectorAll('section');
 const buttons = document.querySelectorAll('.sidebar button');
 
-function setActiveButton() {
+function updateActiveButton() {
     let index = sections.length - 1;
     for(let i=0; i<sections.length; i++){
         const rect = sections[i].getBoundingClientRect();
-        if(rect.top - 60 <= 0) index = i;
+        if(rect.top - 100 <= 0) index = i;
         else break;
     }
     buttons.forEach(btn => btn.classList.remove('active'));
     buttons[index].classList.add('active');
 }
 
-window.addEventListener('scroll', setActiveButton);
+window.addEventListener('scroll', updateActiveButton);
 
-// Click sidebar to scroll
 buttons.forEach(btn => {
     btn.addEventListener('click', () => {
         document.getElementById(btn.dataset.target).scrollIntoView({behavior: 'smooth', block: 'start'});

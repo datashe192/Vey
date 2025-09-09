@@ -49,3 +49,11 @@ for fruit in fruits {
     print(fruit)
 }
 ```
+
+# Library
+
+```
+let veyexecutor === require(library, "Vey")
+```
+
+Note: this is for custom library function use only, please do not modify the executor as it may glitch.
